@@ -33,7 +33,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: expo-notification-secrets
-                  key: MONGO_DB
+                  key:  MONGO_DB_NAME
 ---
 apiVersion: v1
 kind: Service
