@@ -21,4 +21,9 @@ router.post("/push-expo-tokens", async (req, res) => {
   }
 });
 
+// Simple GET to verify routing works
+router.get("/push-expo-tokens", (req, res) => {
+  res.json({ status: "ok", route: "/api/push-expo-tokens" });
+});
+
 module.exports = router;
