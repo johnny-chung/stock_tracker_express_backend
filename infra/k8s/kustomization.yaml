@@ -5,6 +5,7 @@ resources:
   - namespace.yaml
   - expo_api_backend_depl.yaml
   - live-tracker-depl.yaml
+  - stock-tracker-ingress.yaml
 # images:
 #   - name: DOCKERHUB_USERNAME/stock-tracker-express-backend
 #     newTag: latest
