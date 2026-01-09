@@ -27,12 +27,12 @@ spec:
             - name: MONGO_URI
               valueFrom:
                 secretKeyRef:
-                  name: express-backend-secrets
+                  name: expo-notification-secrets
                   key: MONGO_URI
             - name: MONGO_DB
               valueFrom:
                 secretKeyRef:
-                  name: express-backend-secrets
+                  name: expo-notification-secrets
                   key: MONGO_DB
 ---
 apiVersion: v1

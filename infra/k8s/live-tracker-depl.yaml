@@ -23,7 +23,7 @@ spec:
             - containerPort: 8080
           envFrom:
             - secretRef:
-                name: realtime-secrets
+                name: expo-notification-secrets
           livenessProbe:
             httpGet:
               path: /health
