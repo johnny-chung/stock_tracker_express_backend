@@ -11,6 +11,10 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
 
+// Routes
+const pushTokensRouter = require("./src/routes/pushTokens");
+app.use("/api", pushTokensRouter);
+
 app.get("/health", (req, res) => {
   res.json({
     status: "ok",
