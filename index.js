@@ -13,7 +13,11 @@ app.use(morgan("tiny"));
 
 // Routes
 const pushTokensRouter = require("./src/routes/pushTokens");
+const tradesRouter = require("./src/routes/trades");
+const portfolioRouter = require("./src/routes/portfolio");
 app.use("/api", pushTokensRouter);
+app.use("/api", tradesRouter);
+app.use("/api", portfolioRouter);
 
 app.get("/health", (req, res) => {
   res.json({
