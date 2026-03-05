@@ -27,17 +27,31 @@ app.get("/health", (req, res) => {
   });
 });
 
-async function fetchLatest(collectionName, limit = 10) {
+async function fetchLatest(collectionName, { from, to, limit = 50 } = {}) {
   const db = await getDb();
   const col = db.collection(collectionName);
-  // Sort by ObjectId descending to approximate newest inserts
-  const docs = await col.find({}).sort({ _id: -1 }).limit(limit).toArray();
+  const filter = {};
+  if (from || to) {
+    filter.ts = {};
+    if (from) filter.ts.$gte = new Date(from);
+    if (to) {
+      // Include the full "to" day (end of day)
+      const toDate = new Date(to);
+      toDate.setHours(23, 59, 59, 999);
+      filter.ts.$lte = toDate;
+    }
+  }
+  const docs = await col.find(filter).sort({ ts: -1 }).limit(limit).toArray();
   return docs;
 }
 
 app.get("/api/bars", async (req, res) => {
   try {
-    const data = await fetchLatest("bars");
+    const data = await fetchLatest("bars", {
+      from: req.query.from,
+      to: req.query.to,
+      limit: parseInt(req.query.limit) || 50,
+    });
     res.json(data);
   } catch (err) {
     console.error("Error fetching bars:", err);
@@ -49,7 +63,11 @@ app.get("/api/bars", async (req, res) => {
 
 app.get("/api/signals", async (req, res) => {
   try {
-    const data = await fetchLatest("signals");
+    const data = await fetchLatest("signals", {
+      from: req.query.from,
+      to: req.query.to,
+      limit: parseInt(req.query.limit) || 50,
+    });
     res.json(data);
   } catch (err) {
     console.error("Error fetching signals:", err);
@@ -61,7 +79,11 @@ app.get("/api/signals", async (req, res) => {
 
 app.get("/api/events", async (req, res) => {
   try {
-    const data = await fetchLatest("events");
+    const data = await fetchLatest("events", {
+      from: req.query.from,
+      to: req.query.to,
+      limit: parseInt(req.query.limit) || 50,
+    });
     res.json(data);
   } catch (err) {
     console.error("Error fetching events:", err);
